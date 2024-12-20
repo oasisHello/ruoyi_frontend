@@ -1,13 +1,17 @@
 <template>
   <div class="app-container">
+
+
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+    <!--View:Search condition area start-->
       <el-form-item label="name" prop="courseName">
         <el-input
           v-model="queryParams.courseName"
           placeholder="请输入name"
-          clearable
-          @keyup.enter="handleQuery"
+          clearable 
+          @keyup.enter="handleQuery" 
         />
+
       </el-form-item>
       <el-form-item label="code" prop="courseCode">
         <el-input
@@ -67,12 +71,14 @@
           placeholder="请选择created_at">
         </el-date-picker>
       </el-form-item>
+      <!--Search and reset Button-->
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+    <!--View:Search condition area end-->
+<!-- Button area-->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -114,7 +120,7 @@
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+<!--data table sheet start-->
     <el-table v-loading="loading" :data="courseList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="courseId" />
@@ -150,7 +156,9 @@
         </template>
       </el-table-column>
     </el-table>
+    <!--data table sheet end-->
     
+    <!--pagination-->
     <pagination
       v-show="total>0"
       :total="total"
@@ -223,6 +231,7 @@
 </template>
 
 <script setup name="Course">
+// import the api of backended
 import { listCourse, getCourse, delCourse, addCourse, updateCourse } from "@/api/course/course";
 
 const { proxy } = getCurrentInstance();
@@ -230,11 +239,15 @@ const { department } = proxy.useDict('department');
 
 const courseList = ref([]);
 const open = ref(false);
+// loading status
 const loading = ref(true);
+// 
 const showSearch = ref(true);
 const ids = ref([]);
 const single = ref(true);
+// 
 const multiple = ref(true);
+//number of records
 const total = ref(0);
 const title = ref("");
 
